@@ -3,15 +3,16 @@ from pygame.locals import *
 import time
 
 import tkinter, tkFileDialog
+import json
+import datetime
 
 root = tkinter.Tk()
 filez = tkFileDialog.askopenfilenames(parent=root, title='Choose a file')
 fileList = root.tk.splitlist(filez)
 numOfSong = len(fileList)
 
-
-
-
+data = {}
+writeToFile = 'test.json'
 pygame.init()
 
 width = 800
@@ -57,6 +58,7 @@ def firstPage():
     pygame.draw.polygon(window, grey, playTriangle)
     playbox = pygame.Rect(width / 2 - width / 16, height / 3, width / 6, height / 3)
 
+    data[title[-1]] = []
     #draw text
     titleforsong = myfont.render('music\'s name: ' + title[-1], True, black)
     textsurface = myfont.render('Press the button for playing music', True, black)
@@ -86,8 +88,14 @@ def firstPage():
                         pygame.draw.rect(window, background_colour, playbox, 0)
                         long = height / 4
                         pygame.draw.rect(window, grey, [width / 2 - long / 2, height / 2 - long / 2, long, long], 0)
-                        pygame.mixer.music.play(-1, 0)
+                        pygame.mixer.music.play(0, 0)
                         music_playing = True
+                        now = datetime.datetime.now()
+                        dateandtime = now.strftime("%Y-%m-%d %H:%M")
+                        print(dateandtime)
+                        data[title[-1]].append({
+                            'date and time': dateandtime
+                        })
                     else:
                         pygame.mixer.music.stop()
                         first_page = False
@@ -380,7 +388,7 @@ def nextPage(i):
                 if active:
                     if event.key == pygame.K_RETURN:
                         print(text)
-                        text = ''
+                        # text = ''
                     elif event.key == pygame.K_BACKSPACE:
                         pygame.draw.rect(window, background_colour,
                                          [width / 4 + 2, margin * 4 + 2, width / 2 - 4, margin - 4], 0)
@@ -390,7 +398,7 @@ def nextPage(i):
                 if activetwo:
                     if event.key == pygame.K_RETURN:
                         print(text2)
-                        text2 = ''
+                        # text2 = ''
                     elif event.key == pygame.K_BACKSPACE:
                         pygame.draw.rect(window, background_colour, [width / 4 + 2, margin * 12 + 2, width / 2 - 4, margin - 4], 0)
                         text2 = text2[:-1]
@@ -418,6 +426,23 @@ def nextPage(i):
                 pygame.draw.circle(window, black, (width / 4 * (rl + 1) - grid, margin * 10 + margin / 2), 2 * radioList2[rl], 0)
         pygame.display.flip()
         clock.tick(30)
+
+    checklistToWrite = []
+    for numOfT in range(4):
+        if checklist[numOfT]:
+            checklistToWrite.append(checkboxText[numOfT])
+    print(checklistToWrite)
+    data[title[-1]].append({
+        timeList[i]: {
+            "When": text,
+            "What": checklistToWrite,
+            "Feeling": radioTextList[feelingNumber],
+            "Strength": radioTextList2[strengthNumber],
+            "Why": text2
+        }
+    })
+    with open(writeToFile, 'w')as outfile:
+        json.dump(data, outfile, indent=4, sort_keys=False)
 
 
 def takeabreak():
@@ -447,12 +472,10 @@ def takeabreak():
                     readytogo = False
 
 
-
 def generatePage():
     pages = len(timeList)
     for i in range(pages):
         nextPage(i)
-
 
 
 #initialAll()
@@ -467,6 +490,7 @@ for numofs in range(numOfSong):
     timeList = []
     music_playing = False
     music_pause = False
+
     firstPage()
     generatePage()
     if numofs < numOfSong - 1:
