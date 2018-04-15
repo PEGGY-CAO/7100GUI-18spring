@@ -5,6 +5,7 @@ import time
 import tkinter, tkFileDialog
 import json
 import datetime
+from collections import OrderedDict
 
 root = tkinter.Tk()
 filez = tkFileDialog.askopenfilenames(parent=root, title='Choose a file')
@@ -432,7 +433,8 @@ def nextPage(i):
         if checklist[numOfT]:
             checklistToWrite.append(checkboxText[numOfT])
     print(checklistToWrite)
-    data[title[-1]].append({
+
+    d = OrderedDict({
         timeList[i]: {
             "When": text,
             "What": checklistToWrite,
@@ -441,8 +443,10 @@ def nextPage(i):
             "Why": text2
         }
     })
+
+    data[title[-1]].append(d)
     with open(writeToFile, 'w')as outfile:
-        json.dump(data, outfile, indent=4, sort_keys=False)
+        json.dump(data, outfile, indent=4, sort_keys=True)
 
 
 def takeabreak():
