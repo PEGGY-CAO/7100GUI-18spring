@@ -1,6 +1,6 @@
 # 7100GUI-18spring
 This GUI is designed for EEG test. It is used to collect user's data.
-playMusic.py is used to run the GUI.
+PlayMusic.py is used to run the GUI. Please ignore GUI.py
 
 LetItRain.mp3 is used to test.
 
