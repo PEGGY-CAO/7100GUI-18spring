@@ -1,4 +1,4 @@
-import pygame, sys, easygui
+import pygame, sys
 from pygame.locals import *
 import time
 
@@ -13,7 +13,7 @@ fileList = root.tk.splitlist(filez)
 numOfSong = len(fileList)
 
 data = {}
-writeToFile = 'test.json'
+writeToFile = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.json'
 pygame.init()
 
 width = 800
