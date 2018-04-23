@@ -43,12 +43,7 @@ myfont1 = pygame.font.SysFont('Comic Sans MS', 20)
 
 #pygame.mixer.music.play(0, 0.0)
 pygame.display.flip()
-
-
 grid = 20
-
-
-
 
 
 def firstPage():
@@ -61,18 +56,18 @@ def firstPage():
 
     data[title[-1]] = []
     #draw text
-    titleforsong = myfont.render('music\'s name: ' + title[-1], True, black)
-    textsurface = myfont.render('Press the button for playing music', True, black)
+    titleforsong = myfont.render(title[-1], True, black)
+    # textsurface = myfont.render('Press the button for playing music', True, black)
     # textGreenB = myfont.render('Press the green button to pause or unpause.', True, black)
     # textPrompt = myfont.render('Press the red button when finished listening.', True, black)
-    textsurface1 = myfont.render('Press space bar as long as you are intrigued by the music.', False, black)
-    textsurface2 = myfont.render('Press stop to go next.', False, black)
-    window.blit(titleforsong, (0, 0))
+    textsurface1 = myfont1.render('Press space bar if you have any ideas/reflections/insights, or other reactions.', False, black)
+    # textsurface2 = myfont.render('Press stop to go next.', False, black)
+    window.blit(titleforsong, (width / 2 - len(title[-1]) * 10 / 2, 0))
     # window.blit(textGreenB, (0, 33))
     # window.blit(textPrompt, (0, 66))
-    window.blit(textsurface, (0, 33))
+    # window.blit(textsurface, (0, 33))
     window.blit(textsurface1, (0, 66))
-    window.blit(textsurface2, (0, 99))
+    # window.blit(textsurface2, (0, 99))
     timeText = myfont1.render('Time:', True, (0, 0, 0))
     window.blit(timeText, (width / 4 * 3, height / 4))
 
@@ -204,25 +199,29 @@ def firstPage():
 #                     # if time.clock() - start >= 5:
 #                     #     pygame.mixer.music.stop()
 
-checkboxText = ['Idea', 'Reflection', 'Insight', 'Cringe']
 
 
+checkboxText = ['Idea', 'Reflection', 'Insight', '']
 def checkbox(n):
     myfont0 = pygame.font.SysFont('Comic Sans MS', 18)
     for i in range(n):
-        checkbox = pygame.Rect(margin * 4 + 150 * i, margin * 6, grid, grid)
+        checkbox = pygame.Rect(margin * 4 + 150 * i, margin * 4, grid, grid)
         pygame.draw.rect(window, black, checkbox, 2)
+
         page2checktext = myfont0.render(checkboxText[i], True, (0, 0, 0))
-        window.blit(page2checktext, (margin * 5 + 150 * i, margin * 6))
+        window.blit(page2checktext, (margin * 5 + 150 * i, margin * 4))
         #input_box = pygame.Rect(width / 4, margin * 4, width / 2, margin)
 
 
 def nextPage(i):
+    global checkboxText
     clock = pygame.time.Clock()
     l = len(timeList)
     window.fill(background_colour)
     myfont2 = pygame.font.SysFont('Comic Sans MS', 20)
     myfont0 = pygame.font.SysFont('Comic Sans MS', 18)
+    myfont00 = pygame.font.SysFont('Comic Sans MS', 16)
+
     # draw title
     page2text0 = myfont2.render('Marking ' + str(i + 1) + ' / ' + str(l) + ': ', True, (0, 0, 0))
     window.blit(page2text0, (margin, margin))
@@ -231,46 +230,54 @@ def nextPage(i):
     pygame.draw.polygon(window, red, pointTriangle)
     #draw "when" text
     page2text1 = myfont2.render('When?', True, (0, 0, 0))
-    window.blit(page2text1, (width / 2 - margin, margin * 3))
+    window.blit(page2text1, (width / 2 - margin, margin * 9))
     #draw input textbox
-    input_box = pygame.Rect(width / 4, margin * 4, width / 2, margin)
+    input_box = pygame.Rect(width / 4, margin * 10, width / 2, margin)
     active = False
     color_inactive = black
     color_active = (0, 255, 255)
     color_textbox = color_inactive
     text = ''
-    #draw "what" text
+    #draw "what" text and imput box
     page2text2 = myfont2.render('What?', True, (0, 0, 0))
-    window.blit(page2text2, (width / 2 - margin, margin * 5))
+    window.blit(page2text2, (width / 2 - margin, margin * 3))
+    input_box4what = pygame.Rect(margin * 5 + 150 * 3, margin * 4, margin * 3, grid)
+    activetext4what = False
+    color_inputbox4what = color_inactive
+    text4what = ''
+
     #pygame.draw.rect(window, black, input_box, 2)
     #pygame.draw.rect(window, black, (width / 4, margin * (i + 4), width / 2, margin), 2)
     #draw Next button and text
     nextX = width - button_width - margin
     nextY = height - button_height - margin
-    pygame.draw.rect(window, blue, [nextX, nextY, button_width, button_height])
-    buttonnext = myfont0.render('Next', True, (0, 0, 0))
-    window.blit(buttonnext, (nextX + grid, nextY))
+    # pygame.draw.rect(window, blue, [nextX, nextY, button_width, button_height])
+    # buttonnext = myfont0.render('Next', True, (0, 0, 0))
+    # window.blit(buttonnext, (nextX + grid, nextY))
+
     # draw checkbox
+    checkboxText[3] = ''
     checkbox(4)
     # prepare for checkbox's check or not, 0 = unchecked
     checklist = [False, False, False, False]
     # draw Feeling text for radio box
-    page2text3 = myfont2.render('Feeling?', True, (0, 0, 0))
-    window.blit(page2text3, (width / 2 - margin, margin * 7))
-    radioTextList = ['Negative', 'Neutral', 'Positive']
+    # change "feeling" to "reactions"
+    page2text3 = myfont2.render('Reactions', True, (0, 0, 0))
+    window.blit(page2text3, (width / 2 - margin, margin * 5))
+    radioTextList = ['Dislike', 'Neutral', 'Like']
     for j in range(3):
         radioText = myfont0.render(radioTextList[j], True, black)
-        window.blit(radioText, (width / 4 * (j + 1), margin * 8))
-        pygame.draw.circle(window, black, (width / 4 * (j + 1) - grid, margin * 8 + margin / 2), 10, 2)
+        window.blit(radioText, (width / 4 * (j + 1), margin * 6))
+        pygame.draw.circle(window, black, (width / 4 * (j + 1) - grid, margin * 6 + margin / 2), 10, 2)
     radioList = [0, 0, 0]
     # draw Strength text for radio box
     page2text4 = myfont2.render('Strength?', True, (0, 0, 0))
-    window.blit(page2text4, (width / 2 - margin, margin * 9))
+    window.blit(page2text4, (width / 2 - margin, margin * 7))
     radioTextList2 = ['Little', 'Medium', 'A lot']
     for j in range(3):
         radioText = myfont0.render(radioTextList2[j], True, black)
-        window.blit(radioText, (width / 4 * (j + 1), margin * 10))
-        pygame.draw.circle(window, black, (width / 4 * (j + 1) - grid, margin * 10 + margin / 2), 10, 2)
+        window.blit(radioText, (width / 4 * (j + 1), margin * 8))
+        pygame.draw.circle(window, black, (width / 4 * (j + 1) - grid, margin * 8 + margin / 2), 10, 2)
     radioList2 = [0, 0, 0]
     # draw Describe text
     page2text5 = myfont2.render('Describe: (Why?)', True, (0, 0, 0))
@@ -282,10 +289,12 @@ def nextPage(i):
     text2 = ''
 
 
+
     nextP = True
     while nextP:
         pygame.draw.rect(window, color_textbox, input_box, 2)
         pygame.draw.rect(window, color_textbox2, input_box2, 2)
+        pygame.draw.rect(window, color_inputbox4what, input_box4what, 2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -306,6 +315,13 @@ def nextPage(i):
                 else:
                     activetwo = False
                     color_textbox2 = color_inactive
+                if input_box4what.collidepoint(event.pos):
+                    activetext4what = True
+                    color_inputbox4what = color_active
+                else:
+                    activetext4what = False
+                    color_inputbox4what = color_inactive
+
                 # for "Play" button
                 if width / 2 < event.pos[0] < width / 2 + grid and margin < event.pos[1] < margin + grid:
                     pygame.mixer.music.stop()
@@ -324,13 +340,13 @@ def nextPage(i):
                 #elif width / 2 < event.pos[0] < width / 2 + grid and margin < event.pos[1] < margin + grid:
 
                 #for checkbox
-                if margin * 6 < event.pos[1] < margin * 6 + grid: # y are in this range
+                if margin * 4 < event.pos[1] < margin * 4 + grid: # y are in this range
                     x = (event.pos[0] - margin * 4) / 150
                     if not checklist[x]:
                         start_x1 = margin * 4 + 150 * x + 5
-                        start_y1 = margin * 6 + 5
+                        start_y1 = margin * 4 + 5
                         end_x1 = margin * 4 + 150 * x + grid - 5
-                        end_y1 = margin * 6 + grid - 5
+                        end_y1 = margin * 4 + grid - 5
                         start_x2 = end_x1
                         start_y2 = start_y1
                         end_x2 = start_x1
@@ -340,12 +356,12 @@ def nextPage(i):
                         print(event.pos)
                         checklist[x] = True
                     else:
-                        pygame.draw.rect(window, background_colour, [margin * 4 + 150 * x + 4, margin * 6 + 4, grid - 6, grid - 6])
+                        pygame.draw.rect(window, background_colour, [margin * 4 + 150 * x + 4, margin * 4 + 4, grid - 6, grid - 6])
                         checklist[x] = False
                         print(checklist)
 
                 # for radio box
-                if margin * 8 < event.pos[1] < margin * 8 + grid: # y are in this range
+                if margin * 6 < event.pos[1] < margin * 6 + grid: # y are in this range
                     print(event.pos)
                     feelingNumber = (event.pos[0] + margin) * 4 / width - 1
                     # 0 for Negative, 1 for Neutral, 2 for Positive
@@ -364,7 +380,7 @@ def nextPage(i):
                         radioList[1] = 0
 
                 # for radio box2
-                if margin * 10 < event.pos[1] < margin * 10 + grid:  # y are in this range
+                if margin * 8 < event.pos[1] < margin * 8 + grid:  # y are in this range
                     print(event.pos)
                     strengthNumber = (event.pos[0] + margin) * 4 / width - 1
                     # 0 for Little, 1 for Medium, 2 for A lot
@@ -392,53 +408,72 @@ def nextPage(i):
                         # text = ''
                     elif event.key == pygame.K_BACKSPACE:
                         pygame.draw.rect(window, background_colour,
-                                         [width / 4 + 2, margin * 4 + 2, width / 2 - 4, margin - 4], 0)
+                                         [width / 4 + 2, margin * 10 + 2, width / 2 - 4, margin - 2], 0)
                         text = text[:-1]
                     else:
                         text += char
                 if activetwo:
+                    pygame.draw.rect(window, blue, [nextX, nextY, button_width, button_height])
+                    buttonnext = myfont0.render('Next', True, (0, 0, 0))
+                    window.blit(buttonnext, (nextX + grid, nextY))
                     if event.key == pygame.K_RETURN:
                         print(text2)
                         # text2 = ''
                     elif event.key == pygame.K_BACKSPACE:
-                        pygame.draw.rect(window, background_colour, [width / 4 + 2, margin * 12 + 2, width / 2 - 4, margin - 4], 0)
+                        pygame.draw.rect(window, background_colour, [width / 4 + 2, margin * 12 + 2, width / 2 - 4, margin - 2], 0)
                         text2 = text2[:-1]
                     else:
                         text2 += char
-        #show text for question 1
-        page2Answer1 = myfont0.render(text, True, (0, 0, 0))
-        window.blit(page2Answer1, (width / 4 + 5, margin * 4 + 5))
+                if activetext4what:
+                    if event.key == pygame.K_RETURN:
+                        print(text4what)
+                    elif event.key == pygame.K_BACKSPACE:
+                        # margin * 5 + 150 * 3, margin * 4, margin, grid
+                        #margin * 5 + 150 * 3, margin * 4, margin * 3, grid)
+                        pygame.draw.rect(window, background_colour, [margin * 5 + 150 * 3 + 2, margin * 4 + 2, margin * 3 - 4, grid - 2], 0)
+                        text4what = text4what[:-1]
+                    else:
+                        text4what += char
 
-        # show text for question 2
+        #show text for when
+        page2Answer1 = myfont0.render(text, True, (0, 0, 0))
+        window.blit(page2Answer1, (width / 4 + 5, margin * 10 + 5))
+
+        # show text for describe
         page2Answer2 = myfont0.render(text2, True, (0, 0, 0))
         window.blit(page2Answer2, (width / 4 + 5, margin * 12 + 5))
+
+        # show text for what
+        page2Answer4what = myfont00.render(text4what, True, (0, 0, 0))
+        window.blit(page2Answer4what, (margin * 5 + 150 * 3 + 5, margin * 4 + 1))
 
         #print(radioList)
         #draw radio box - checked/unchecked
         for r in range(3):
             if radioList[r] == 0:
-                pygame.draw.rect(window, background_colour, [width / 4 * (r + 1) - grid - 2, margin * 8 + margin / 2 - 2, 4, 4])
+                pygame.draw.rect(window, background_colour, [width / 4 * (r + 1) - grid - 2, margin * 6 + margin / 2 - 2, 4, 4])
             else:
-                pygame.draw.circle(window, black, (width / 4 * (r + 1) - grid, margin * 8 + margin / 2), 2 * radioList[r], 0)
+                pygame.draw.circle(window, black, (width / 4 * (r + 1) - grid, margin * 6 + margin / 2), 2 * radioList[r], 0)
         for rl in range(3):
             if radioList2[rl] == 0:
-                pygame.draw.rect(window, background_colour, [width / 4 * (rl + 1) - grid - 2, margin * 10 + margin / 2 - 2, 4, 4])
+                pygame.draw.rect(window, background_colour, [width / 4 * (rl + 1) - grid - 2, margin * 8 + margin / 2 - 2, 4, 4])
             else:
-                pygame.draw.circle(window, black, (width / 4 * (rl + 1) - grid, margin * 10 + margin / 2), 2 * radioList2[rl], 0)
+                pygame.draw.circle(window, black, (width / 4 * (rl + 1) - grid, margin * 8 + margin / 2), 2 * radioList2[rl], 0)
         pygame.display.flip()
         clock.tick(30)
-
+    checkboxText[3] = text4what
     checklistToWrite = []
     for numOfT in range(4):
-        if checklist[numOfT]:
-            checklistToWrite.append(checkboxText[numOfT])
+        if checklist[numOfT] != '':
+            if checklist[numOfT]:
+                checklistToWrite.append(checkboxText[numOfT])
     print(checklistToWrite)
 
     d = OrderedDict({
         timeList[i]: {
             "When": text,
             "What": checklistToWrite,
-            "Feeling": radioTextList[feelingNumber],
+            "Reaction": radioTextList[feelingNumber],
             "Strength": radioTextList2[strengthNumber],
             "Why": text2
         }
