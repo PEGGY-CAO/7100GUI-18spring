@@ -30,10 +30,6 @@ green = (0, 255, 0)
 black = (0, 0, 0)
 grey = (110, 110, 110)
 
-# # three button
-# pygame.draw.rect(window, blue, [120, 140 + margin, button_width, button_height])
-# pygame.draw.rect(window, green, [120, 200 + margin, button_width, button_height])
-# pygame.draw.rect(window, red, [400, 140 + margin, button_width, button_height])
 # initial music module
 pygame.mixer.init()
 
@@ -57,17 +53,9 @@ def firstPage():
     data[title[-1]] = []
     #draw text
     titleforsong = myfont.render(title[-1], True, black)
-    # textsurface = myfont.render('Press the button for playing music', True, black)
-    # textGreenB = myfont.render('Press the green button to pause or unpause.', True, black)
-    # textPrompt = myfont.render('Press the red button when finished listening.', True, black)
     textsurface1 = myfont1.render('Press space bar if you have any ideas/reflections/insights, or other reactions.', False, black)
-    # textsurface2 = myfont.render('Press stop to go next.', False, black)
     window.blit(titleforsong, (width / 2 - len(title[-1]) * 10 / 2, 0))
-    # window.blit(textGreenB, (0, 33))
-    # window.blit(textPrompt, (0, 66))
-    # window.blit(textsurface, (0, 33))
     window.blit(textsurface1, (0, 66))
-    # window.blit(textsurface2, (0, 99))
     timeText = myfont1.render('Time:', True, (0, 0, 0))
     window.blit(timeText, (width / 4 * 3, height / 4))
 
@@ -95,41 +83,12 @@ def firstPage():
                     else:
                         pygame.mixer.music.stop()
                         first_page = False
-                    # if music_playing:
-                    # active = True
-                    # color_textbox = color_active
 
-                #print(event.pos)
-                # if 120 < event.pos[0] < (120 + button_width) and 140 + margin < event.pos[1] < (140 + button_height + margin):
-                #     if music_playing:
-                #         pygame.mixer.music.play(-1, 0)
-                #         #pygame.mixer.music.set_pos(5)
-                #         # time.sleep(5)
-                #         # pygame.mixer.music.pause()
-                #         # pygame.mixer.music.play(-1, 50)
-                #         music_playing = False
-                #     else:
-                #         pygame.mixer.music.stop()
-                #         #pygame.mixer.music.unpause()
-                #         music_playing = True
-                # if 120 < event.pos[0] < (120 + button_width) and 200 + margin < event.pos[1] < (200 + button_height + margin):
-                #     if music_pause:
-                #         pygame.mixer.music.unpause()
-                #         music_pause = False
-                #     else:
-                #         pygame.mixer.music.pause()
-                #         music_pause = True
-                #
-                # # turn into a new page
-                # if 400 < event.pos[0] < (400 + button_width) and 140 + margin < event.pos[1] < (140 + button_height + margin):
-                #     first_page = False
             elif event.type ==KEYDOWN:
 
                 if event.key == K_SPACE:
                     numOfSpace = numOfSpace + 1
-                    #print(numOfSpace)
-                    #print("space bar")
-                    #print(pygame.mixer.music.get_pos()/10)
+
                     t = float(pygame.mixer.music.get_pos()/10)/100
                     timeString = myfont1.render(str(t), True, (0, 0, 0))
                     window.blit(timeString, (width / 4 * 3, height / 4 + numOfSpace * margin))
@@ -138,70 +97,9 @@ def firstPage():
 
         pygame.display.flip()
 
-
-# def second_page():
-#     # global timeList
-#     l = len(timeList)
-#     #print(len(timeList))
-#     window.fill(background_colour)
-#     pos = 'Positive'
-#     neu = 'Neutral'
-#     neg = 'Negative'
-#     myfont2 = pygame.font.SysFont('Comic Sans MS', 20)
-#     myfont2S = pygame.font.SysFont('Comic Sans MS', 15)
-#     page2text0 = myfont2.render('There are ' + str(len(timeList)) + ' markers in total.', True, (0, 0, 0))
-#     page2text = myfont2.render('Check each box according to your feeling when hear it.', False, (0, 0, 0))
-#     window.blit(page2text0, (0, 0))
-#     window.blit(page2text, (0, margin))
-#
-#     page2pos = myfont2S.render(pos, False, black)
-#     page2neu = myfont2S.render(neu, False, black)
-#     page2neg = myfont2S.render(neg, False, black)
-#
-#     lineSeg = 3
-#     # draw for user
-#     for i in range(l):
-#         pointTriangle = [[width / 8, margin * (i + 2)], [width / 8, margin * (i + 2) + grid],
-#                          [width / 8 + grid, margin * (i + 2) + grid / 2]]
-#         pygame.draw.polygon(window, red, pointTriangle)
-#         pygame.draw.rect(window, black, (width / 4, margin * (i + 2), grid, grid), lineSeg)
-#         window.blit(page2pos, (width / 4 + margin, margin * (i + 2)))
-#         pygame.draw.rect(window, black, (width / 2, margin * (i + 2), grid, grid), lineSeg)
-#         window.blit(page2neu, (width / 2 + margin, margin * (i + 2)))
-#         pygame.draw.rect(window, black, (width / 4 * 3, margin * (i + 2), grid, grid), lineSeg)
-#         window.blit(page2neg, (width / 4 * 3 + margin, margin * (i + 2)))
-#     pygame.display.flip()
-#     while True:
-#         for event in pygame.event.get():
-#
-#             if event.type == pygame.QUIT:
-#                 pygame.quit()
-#                 sys.exit()
-#             elif event.type == pygame.MOUSEBUTTONDOWN:
-#                 start = time.clock()
-#                 print(start)
-#                 x = event.pos[0] * 8 / width
-#                 y = event.pos[1] / margin - 2
-#                 print(x)
-#                 print(y)
-#                 if x == 1:
-#                     print(timeList[y])
-#                     pygame.mixer.music.stop()
-#                     pygame.mixer.music.play(0, 0)
-#                     if timeList[0] < 5:
-#                         pygame.mixer.music.play(0, 0)
-#                     else:
-#                     #pygame.mixer.music.rewind()
-#                         pygame.mixer.music.play(-1, timeList[y] - 5)
-#                     #print(pygame.mixer.music.get_pos())
-#                     time.sleep(5)
-#                     pygame.mixer.music.stop()
-#                     # if time.clock() - start >= 5:
-#                     #     pygame.mixer.music.stop()
-
-
-
 checkboxText = ['Idea', 'Reflection', 'Insight', '']
+
+
 def checkbox(n):
     myfont0 = pygame.font.SysFont('Comic Sans MS', 18)
     for i in range(n):
@@ -210,7 +108,6 @@ def checkbox(n):
 
         page2checktext = myfont0.render(checkboxText[i], True, (0, 0, 0))
         window.blit(page2checktext, (margin * 5 + 150 * i, margin * 4))
-        #input_box = pygame.Rect(width / 4, margin * 4, width / 2, margin)
 
 
 def nextPage(i):
@@ -246,14 +143,9 @@ def nextPage(i):
     color_inputbox4what = color_inactive
     text4what = ''
 
-    #pygame.draw.rect(window, black, input_box, 2)
-    #pygame.draw.rect(window, black, (width / 4, margin * (i + 4), width / 2, margin), 2)
     #draw Next button and text
     nextX = width - button_width - margin
     nextY = height - button_height - margin
-    # pygame.draw.rect(window, blue, [nextX, nextY, button_width, button_height])
-    # buttonnext = myfont0.render('Next', True, (0, 0, 0))
-    # window.blit(buttonnext, (nextX + grid, nextY))
 
     # draw checkbox
     checkboxText[3] = ''
@@ -288,8 +180,6 @@ def nextPage(i):
     color_textbox2 = color_inactive
     text2 = ''
 
-
-
     nextP = True
     while nextP:
         pygame.draw.rect(window, color_textbox, input_box, 2)
@@ -301,7 +191,6 @@ def nextPage(i):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                #print(x)
                 # for input box
                 if input_box.collidepoint(event.pos):
                     active = True
@@ -329,15 +218,12 @@ def nextPage(i):
                     if timeList[0] < 5:
                         pygame.mixer.music.play(0, 0)
                     else:
-                        # pygame.mixer.music.rewind()
                         pygame.mixer.music.play(-1, timeList[i] - 5)
-                    # print(pygame.mixer.music.get_pos())
                     time.sleep(5)
                     pygame.mixer.music.stop()
                 # for "Next" button to next page
                 elif nextX < event.pos[0] < (nextX + button_width) and nextY < event.pos[1] < (nextY + button_height):
                     nextP = False
-                #elif width / 2 < event.pos[0] < width / 2 + grid and margin < event.pos[1] < margin + grid:
 
                 #for checkbox
                 if margin * 4 < event.pos[1] < margin * 4 + grid: # y are in this range
@@ -428,8 +314,6 @@ def nextPage(i):
                     if event.key == pygame.K_RETURN:
                         print(text4what)
                     elif event.key == pygame.K_BACKSPACE:
-                        # margin * 5 + 150 * 3, margin * 4, margin, grid
-                        #margin * 5 + 150 * 3, margin * 4, margin * 3, grid)
                         pygame.draw.rect(window, background_colour, [margin * 5 + 150 * 3 + 2, margin * 4 + 2, margin * 3 - 4, grid - 2], 0)
                         text4what = text4what[:-1]
                     else:
@@ -447,8 +331,6 @@ def nextPage(i):
         page2Answer4what = myfont00.render(text4what, True, (0, 0, 0))
         window.blit(page2Answer4what, (margin * 5 + 150 * 3 + 5, margin * 4 + 1))
 
-        #print(radioList)
-        #draw radio box - checked/unchecked
         for r in range(3):
             if radioList[r] == 0:
                 pygame.draw.rect(window, background_colour, [width / 4 * (r + 1) - grid - 2, margin * 6 + margin / 2 - 2, 4, 4])
@@ -516,7 +398,6 @@ def generatePage():
     for i in range(pages):
         nextPage(i)
 
-
 #initialAll()
 for numofs in range(numOfSong):
 
@@ -534,4 +415,4 @@ for numofs in range(numOfSong):
     generatePage()
     if numofs < numOfSong - 1:
         takeabreak()
-# second_page()
+
